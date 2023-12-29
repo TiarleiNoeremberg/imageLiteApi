@@ -1,8 +1,26 @@
 package io.github.tiarleinoeremberg.imageliteapi.domain.enums;
 
+import org.springframework.http.MediaType;
+
+import javax.print.attribute.standard.Media;
+import java.util.Arrays;
+
 public enum ImageExtension {
-    PNG,
-    JPG,
-    GIF,
-    JPEG
+    PNG(MediaType.IMAGE_PNG),
+    JPEG(MediaType.IMAGE_JPEG),
+    GIF(MediaType.IMAGE_GIF);
+
+    private MediaType mediaType;
+
+    ImageExtension(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public static ImageExtension valueOf(MediaType mediaType){
+        return Arrays.stream(values())
+                .filter(ie -> ie.mediaType.equals(mediaType))
+                .findFirst()
+                .orElse(null);
+
+    }
 }
