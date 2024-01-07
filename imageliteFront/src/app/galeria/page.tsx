@@ -4,6 +4,7 @@ import { Template, ImageCard } from '@/components'
 import { useState } from 'react'
 import { useImageService } from '@/resources/image/image.service'
 import { Image } from '@/resources/image/image.resource';
+import { serialize } from 'v8';
 
 export default function GaleriaPage(){
 
@@ -11,11 +12,13 @@ export default function GaleriaPage(){
     const [images, setImages] = useState<Image[]>([])
     const [query, setQuery] = useState<string>('')
     const[extension, setExtension] = useState<string>('')
+    const[loading, setLoading] = useState<boolean>(false)
 
     async function searchImages(){
-        console.log('valor digitado: ', query)
+        setLoading(true);
         const result = await useService.buscar(query, extension);
         setImages(result);
+        setLoading(false);
     }
     
 function renderImageCard(image: Image){
@@ -34,7 +37,7 @@ function renderImageCards(){
 }
 
     return (
-        <Template>
+        <Template loading={loading}>
             <section className='flex flex-col items-center justify-center my-5'>
                 <div className='flex space-x-4'>
                     <input type='text'
@@ -46,8 +49,8 @@ function renderImageCards(){
                         <option value='JPEG'>JPEG</option>
                         <option value='GIF'>GIF</option>
                     </select>
-                    <button className='bg-blue-500 text-white px-4 py-2 rounded-lg' onClick={searchImages}>Search</button>
-                    <button className='bg-yellow-500 text-white px-4 py-2 rounded-lg'>Add New</button>
+                    <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-400' onClick={searchImages}>Search</button>
+                    <button className='bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-400'>Add New</button>
                 </div>
             </section>
             
