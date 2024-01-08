@@ -3,7 +3,7 @@ interface TemplatePropos {
     loading?: boolean;
 }
 
-export const Template: React.FC<TemplatePropos> = ({children, loading}: TemplatePropos) => {
+export const Template: React.FC<TemplatePropos> = ({children, loading = false}: TemplatePropos) => {
     return (
         <>
             <Header/>
